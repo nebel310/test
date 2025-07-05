@@ -3,16 +3,13 @@ services:
     image: serv1
     build:
       context: ./serv1
-    depends_on:
-      serv2:
-        condition: service_healthy
     ports:
       - "3001:3001"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+    #   interval: 30s
+    #   timeout: 3s
+    #   retries: 3
   
   serv2:
     image: serv2
@@ -20,8 +17,8 @@ services:
       context: ./serv2
     ports:
       - "3002:3002"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
-      interval: 5s
-      timeout: 3s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+    #   interval: 30s
+    #   timeout: 3s
+    #   retries: 3
