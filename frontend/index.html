@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microservices Tester</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    pre {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .loading {
+      color: #7f8c8d;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>Microservices Tester</h1>
+  
+  <div class="card">
+    <h2>Service 1 → Service 2</h2>
+    <button id="askServ2">Call /ask_serv2</button>
+    <div id="result1">
+      <p class="loading">Click the button to see response</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Health Checks</h2>
+    <div>
+      <button id="health1">Check Service 1</button>
+      <button id="health2">Check Service 2</button>
+    </div>
+    <div id="result2">
+      <p class="loading">Click any button to see health status</p>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:3001'; // Для Docker Compose
+
+    async function fetchData(url, outputId) {
+      const output = document.getElementById(outputId);
+      output.innerHTML = '<p class="loading">Loading...</p>';
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        output.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+      } catch (error) {
+        output.innerHTML = `<p style="color: #e74c3c;">Error: ${error.message}</p>`;
+      }
+    }
+
+    document.getElementById('askServ2').addEventListener('click', () => {
+      fetchData(`${API_BASE}/ask_serv2`, 'result1');
+    });
+
+    document.getElementById('health1').addEventListener('click', () => {
+      fetchData(`${API_BASE}/health`, 'result2');
+    });
+
+    document.getElementById('health2').addEventListener('click', () => {
+      fetchData('http://localhost:3002/health', 'result2');
+    });
+  </script>
+</body>
+</html>

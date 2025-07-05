@@ -1,4 +1,14 @@
 services:
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    depends_on:
+      - serv1
+      - serv2
+
   serv1:
     image: serv1
     build:
