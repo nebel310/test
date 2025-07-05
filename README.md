@@ -23,7 +23,7 @@
 
 2. Клонируйте репозиторий (если нужно):
    ```bash
-   git clone https://github.com/your-repo/microservices-demo.git
+   git clone https://github.com/nebel310/test.git
    cd microservices-demo
    ```
 
